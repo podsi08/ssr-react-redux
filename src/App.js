@@ -1,7 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './components/Main/Main';
+import Main from './components/Main/Main.container';
 
 const App = () => {
   return (
