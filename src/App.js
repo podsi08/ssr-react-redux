@@ -1,13 +1,13 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './components/Main/Main.container';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import SharedRoutes from './common/SharedRoutes';
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" render={props => <Main {...props} />} />
+        <SharedRoutes />
       </Switch>
     </Router>
   )

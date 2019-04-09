@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addOneAction, substractOneAction } from '../../actions/action';
+import { addOneAction, substractOneAction } from '../../common/actions/action';
 import Main from './Main';
 
 const mapStateToProps = (state) => {
