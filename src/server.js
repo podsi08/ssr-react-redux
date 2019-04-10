@@ -8,6 +8,8 @@ import counter from './common/reducers/counter';
 
 const app = express();
 
+app.use(express.static("dist"));
+
 app.get('*', (req, res) => {
   const store = createStore(counter);
   const preloadedState = store.getState();
