@@ -1,18 +1,27 @@
 const express = require('express');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const ServerApp = require('./src/ServerApp');
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import ServerApp from './ServerApp';
+import counter from './common/reducers/counter';
 
 const app = express();
 
 app.get('*', (req, res) => {
+  const store = createStore(counter);
+  const preloadedState = store.getState();
+  const client = 'index.js';
+
   const html = ReactDOMServer.renderToString(
-    <ServerApp url={req.url} />
+    <Provider store={store}>
+      <ServerApp url={req.url}/>
+    </Provider>
   );
-  res.send(renderFullPage(html))
+  res.send(renderFullPage(html, client, preloadedState))
 });
 
-function renderFullPage(html) {
+function renderFullPage(html, script, preloadedState) {
   return (
     `
       <!DOCTYPE html>
@@ -24,6 +33,10 @@ function renderFullPage(html) {
         </head>
       <body>
         <div id="app">${html}</div>
+        <script>
+            window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+        </script>
+        <script src=${script}></script>
       </body>
       </html>
     `

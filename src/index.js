@@ -7,7 +7,7 @@ import counter from './common/reducers/counter';
 
 const store = createStore(counter, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-ReactDOM.render(
+ReactDOM.hydrate(
   (
     <Provider store={store}>
       <App />

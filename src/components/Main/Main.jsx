@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './main.scss';
 
 const Main = (props) => {
   return (
@@ -10,7 +9,7 @@ const Main = (props) => {
       <h2>{props.counter}</h2>
       <button onClick={props.addOne}>+</button>
       <button onClick={props.substractOne}>-</button>
-      <Link to="/subpage" className={styles.link}>Go to subpage</Link>
+      <Link to="/subpage">Go to subpage</Link>
     </div>
   )
 };
