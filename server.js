@@ -1,11 +1,12 @@
-// import 'babel-polyfill';
+import 'babel-polyfill';
 import express from 'express';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { createStore } from 'redux';
 import bodyParser from 'body-parser';
+import 'isomorphic-fetch';
 import ServerApp from './src/ServerApp';
-import counter from './src/common/reducers/counter';
+import combineReducer from './src/common/reducers/commonReducer';
 
 const app = express();
 
@@ -13,14 +14,23 @@ app.use(bodyParser.json());
 app.use(express.static('dist/public'));
 
 app.get('*', (req, res) => {
-  const store = createStore(counter);
-  const preloadedState = store.getState();
-  const client = 'client_bundle.js';
+  fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(res => res.json())
+    .then((data) => {
+      const initialState = {
+        fetchData: data,
+        counter: 0,
+      };
+      const store = createStore(combineReducer, initialState);
+      const preloadedState = store.getState();
+      const client = 'client_bundle.js';
 
-  const html = ReactDOMServer.renderToString(
-    <ServerApp url={req.url} store={store}/>
-  );
-  res.send(renderFullPage(html, client, preloadedState))
+      const html = ReactDOMServer.renderToString(
+        <ServerApp url={req.url} store={store}/>
+      );
+      res.send(renderFullPage(html, client, preloadedState))
+    })
+
 });
 
 function renderFullPage(html, script, preloadedState) {
