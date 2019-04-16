@@ -19,7 +19,27 @@ module.exports = {
         loader: 'babel-loader',
         exclude: '/node_modules/'
       },
+      {
+        test: /\.s?css$/,
+        use: [
+          {
+            loader: "css-loader/locals"
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '/images/[name].[ext]',
+              emitFile: false,
+            },
+          },
+        ],
+      },
     ]
   },
   externals: [webpackNodeExternals()]
-}
+};
