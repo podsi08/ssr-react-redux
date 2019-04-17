@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import 'isomorphic-fetch';
 import ServerApp from './src/ServerApp';
 import combineReducer from './src/common/reducers/commonReducer';
+import {addOneAction} from './src/common/actions/action';
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.get('*', (req, res) => {
         counter: 0,
       };
       const store = createStore(combineReducer, initialState);
+      // modify store
+      store.dispatch(addOneAction())
       const preloadedState = store.getState();
       const client = 'client_bundle.js';
 

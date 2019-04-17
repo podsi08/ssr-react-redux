@@ -5,7 +5,13 @@ import { Provider } from 'react-redux';
 import App from './App';
 import combineReducer from './common/reducers/commonReducer';
 
-const store = createStore(combineReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const preloadedState = window.__PRELOADED_STATE__;
+
+const store = createStore(
+  combineReducer,
+  preloadedState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.hydrate(
   (
