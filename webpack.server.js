@@ -21,11 +21,22 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: "css-loader/locals"
-          }
-        ]
+            loader: 'isomorphic-style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              importLoaders: 1,
+            },
+          },
+          'sass-loader',
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/,

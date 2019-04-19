@@ -22,22 +22,18 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'style-loader',
+            loader: 'isomorphic-style-loader'
           },
           {
             loader: 'css-loader',
             options: {
               modules: true,
               sourceMap: true,
-              localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              importLoaders: 1,
             },
           },
-          {
-            loader: 'sass-loader',
-            query: {
-              sourceMap: true,
-            },
-          },
+          'sass-loader',
         ],
       },
       {
@@ -65,4 +61,4 @@ module.exports = {
       },
     ]
   }
-}
+};

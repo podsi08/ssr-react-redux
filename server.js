@@ -5,6 +5,7 @@ import ReactDOMServer from 'react-dom/server';
 import { createStore } from 'redux';
 import bodyParser from 'body-parser';
 import 'isomorphic-fetch';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
 import ServerApp from './src/ServerApp';
 import combineReducer from './src/common/reducers/commonReducer';
 import {addOneAction} from './src/common/actions/action';
@@ -28,15 +29,20 @@ app.get('*', (req, res) => {
       const preloadedState = store.getState();
       const client = 'client_bundle.js';
 
+      const css = new Set();
+      const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
+
       const html = ReactDOMServer.renderToString(
-        <ServerApp url={req.url} store={store}/>
+        <StyleContext.Provider value={{ insertCss }}>
+          <ServerApp url={req.url} store={store}/>
+        </StyleContext.Provider>
       );
-      res.send(renderFullPage(html, client, preloadedState))
+      res.send(renderFullPage(html, client, preloadedState, css))
     })
 
 });
 
-function renderFullPage(html, script, preloadedState) {
+function renderFullPage(html, script, preloadedState, style) {
   return (
     `
       <!DOCTYPE html>
@@ -45,6 +51,7 @@ function renderFullPage(html, script, preloadedState) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>ssr-react-redux</title>
+            <style>${[...style].join('')}</style>
         </head>
       <body>
         <div id="app">${html}</div>

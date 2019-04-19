@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './subpage.scss';
+import withStyles from 'isomorphic-style-loader/withStyles';
 import pandas from '../../assets/images/pandas.jpg';
 
 class Subpage extends React.Component {
@@ -28,4 +29,4 @@ class Subpage extends React.Component {
   }
 }
 
-export default Subpage;
+export default withStyles(styles)(Subpage);
